@@ -19,4 +19,10 @@ class RegistrationForm(forms.ModelForm):
         user = super().save(commit=True)
         user.set_password(self.cleaned_data["password"])
         user.save()
+
         return user
+
+
+class LoginForm(forms.Form):
+    username = forms.CharField(label="Email")
+    password = forms.CharField(label="Password", widget=forms.PasswordInput())

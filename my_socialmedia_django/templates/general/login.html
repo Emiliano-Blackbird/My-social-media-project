@@ -1,22 +1,23 @@
 {% extends "general/layout.html" %}
+{% load crispy_forms_tags %}
+
 
 {% block head_title %}My Social Media{% endblock %}
 
 {% block page_content %}
 <div class="container">
-  <div class="row mt-2 mb-2">
-    <div class="col-sm">
-      {% for message in messages %}
-      <div class="alert
-        {% if message.tags %} {% if message.tags == 'error' %}
-         alert-danger {% else %} alert-{{ message.tags }} {% endif %}
-         {% else %} alert-info {% endif %}">
-        {{ message }}
-      </div>>
-      {% endfor %}
-    </div>
-  </div>
+  {% include '_includes/_messages.html' %}
   <h1>Inicio de sesión</h1>
-  <p>Contenido de inicio de sesión</p>
+
+  <form action="" method="post">
+    {% csrf_token %}
+    <div class="row">
+      <div class="col-12 col-sm-6">
+        {{ form.username|as_crispy_field }}
+        {{ form.password|as_crispy_field }}
+      </div>
+    </div>
+  <button class="btn btn-secondary">Iniciar sesión</button>
+  </form>
 </div>
 {% endblock %}
