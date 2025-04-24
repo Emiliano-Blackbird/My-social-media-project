@@ -18,6 +18,8 @@ from profiles.models import UserProfile
 from django.views.generic.edit import UpdateView
 from posts.models import Post
 
+from .forms import ProfileFollow
+
 
 class HomeView(TemplateView):
     template_name = 'general/home.html'
@@ -70,10 +72,21 @@ class ContactView(TemplateView):
 
 
 @method_decorator(login_required, name='dispatch')  # protege la vista
-class ProfileDetailView(DetailView):
+class ProfileDetailView(DetailView, FormView):
     model = UserProfile
     template_name = 'general/profile_detail.html'
     context_object_name = 'profile'
+    form_class = ProfileFollow
+
+    def form_valid(self, form):
+        profile_pk = form.cleaned_data.get('profile_pk')
+        profile = UserProfile.objects.get(pk=profile_pk)
+        self.request.user.profile.follow(profile)
+        messages.add_message(self.request, messages.SUCCESS, f'Ahora sigues a {profile.user.username}')
+        return super(ProfileDetailView, self).form_valid(form)
+
+    def get_success_url(self):
+        return reverse('profile_detail', args=[self.request.user.profile.pk])
 
 
 @method_decorator(login_required, name='dispatch')  # protege la vista
