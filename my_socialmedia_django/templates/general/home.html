@@ -12,10 +12,13 @@
   <section>
     <h2>Últimas publicaciones</h2>
 
-    {% for post in last_posts %}
-      {% include '_includes/posts/_post.html' %}
-      <hr class="hr" />
+    <div class="row">
+      {% for post in last_posts %}
+        <div class="col-12 col-sm-6 col-md-4">
+          {% include '_includes/posts/_post.html' %}
+        </div>
     {% endfor %}
+    </div>
   </section>
 </div>
 {% endblock %}
