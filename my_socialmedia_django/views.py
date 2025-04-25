@@ -19,6 +19,8 @@ from django.views.generic.edit import UpdateView
 from posts.models import Post
 
 from .forms import ProfileFollow
+from profiles.models import Follow
+from profiles.forms import FollowForm
 
 
 class HomeView(TemplateView):
@@ -27,7 +29,12 @@ class HomeView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        last_posts = Post.objects.all().order_by('-created_at')[:5]
+        if self.request.user.is_authenticated:
+            seguidos = Follow.objects.filter(follower=self.request.user.profile).values_list('following__user', flat=True)
+            last_posts = Post.objects.filter(user__profile__user__in=seguidos)
+
+        else:
+            last_posts = Post.objects.all().order_by('-created_at')[:5]
         context['last_posts'] = last_posts
 
         return context
@@ -71,22 +78,47 @@ class ContactView(TemplateView):
     template_name = 'general/contact.html'
 
 
-@method_decorator(login_required, name='dispatch')  # protege la vista
+@method_decorator(login_required, name='dispatch')
 class ProfileDetailView(DetailView, FormView):
     model = UserProfile
     template_name = 'general/profile_detail.html'
     context_object_name = 'profile'
-    form_class = ProfileFollow
+    form_class = FollowForm
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial['profile_pk'] = self.get_object().pk
+        return initial
 
     def form_valid(self, form):
-        profile_pk = form.cleaned_data.get('profile_pk')
-        profile = UserProfile.objects.get(pk=profile_pk)
-        self.request.user.profile.follow(profile)
-        messages.add_message(self.request, messages.SUCCESS, f'Ahora sigues a {profile.user.username}')
-        return super(ProfileDetailView, self).form_valid(form)
+        profile_pk = form.cleaned_data['profile_pk']
+        self.object = UserProfile.objects.get(pk=profile_pk)
+        follower = self.request.user.profile
+        following = self.object
+
+        follow_relation = Follow.objects.filter(follower=follower, following=following)
+
+        if follow_relation.exists():
+            follow_relation.delete()
+            messages.success(self.request, f'Ya no sigues a {following.user.username}')
+        else:
+            Follow.objects.create(follower=follower, following=following)
+            messages.success(self.request, f'Ahora sigues a {following.user.username}')
+
+        return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('profile_detail', args=[self.request.user.profile.pk])
+        return reverse('profile_detail', args=[self.object.pk])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        profile = self.get_object()
+        context['posts'] = profile.user.posts.all()
+        context['following'] = Follow.objects.filter(
+            follower=self.request.user.profile,
+            following=profile
+        ).exists()
+        return context
 
 
 @method_decorator(login_required, name='dispatch')  # protege la vista
