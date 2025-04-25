@@ -154,7 +154,7 @@ class ProfileUpdateView(UpdateView):
         return reverse('profile_detail', args=[self.object.pk])
 
 
-@method_decorator(login_required, name='dispatch')
+@login_required
 def logout_view(request):
     logout(request)
     messages.add_message(request, messages.INFO, 'Has cerrado sesión')
