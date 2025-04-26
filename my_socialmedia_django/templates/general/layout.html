@@ -9,6 +9,12 @@
             crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
+    <style>
+        .likeButton {
+            text-decoration: none;
+            color: black;
+        }
+    </style>
 </head>
 <body>
     {% include '_includes/_header.html' %}
@@ -25,27 +31,26 @@
 
 <!-- Button to like the post -->
     <script>
-        const likeButton = document.getElementById('likeButton');
-        if (likeButton) {
-        let nLikesSpan = document.getElementById('nLikes');
-        nLikes = parseInt(nLikesSpan.innerHTML);
-        likeButton.addEventListener('click', (event) => {
-            event.preventDefault();
-            fetch(likeButton.href)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.liked) {
-                        likeButton.innerHTML = '<i class="bi bi-heart-fill"></i>';
-                        nLikes += 1;
-                        nLikesSpan.innerHTML = nLikes;
-                    } else {
-                        likeButton.innerHTML = '<i class="bi bi-heart"></i>';
-                        nLikes -= 1;
-                        nLikesSpan.innerHTML = nLikes;
-                    }
-                });
+        const likeButtons = document.querySelectorAll('a.likeButton');
+        likeButtons.forEach(likeButton => {
+            let nLikesSpan = likeButton.querySelector('span');
+            let nLikes = parseInt(nLikesSpan.innerHTML);
+            likeButton.addEventListener('click', (event) => {
+                event.preventDefault();
+                fetch(likeButton.href)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.liked) {
+                            nLikes += 1;
+                            likeButton.innerHTML = `<span>${nLikes}</span> <i class="bi bi-heart-fill"></i>`;
+                        } else {
+                            nLikes -= 1;
+                            likeButton.innerHTML = `<span>${nLikes}</span> <i class="bi bi-heart"></i>`;
+                            nLikesSpan.innerHTML = nLikes;
+                        }
+                    });
+            });
         });
-        }
     </script>
 </body>
 </html>
