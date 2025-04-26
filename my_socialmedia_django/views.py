@@ -121,15 +121,16 @@ class ProfileDetailView(DetailView, FormView):
         return context
 
 
-@method_decorator(login_required, name='dispatch')  # protege la vista
 class ProfileListView(ListView):
     model = UserProfile
     template_name = 'general/profile_list.html'
     context_object_name = 'profiles'
 
+# Evita que el usuario vea su propio perfil
     def get_queryset(self):
-        # Evita que el usuario vea su propio perfil
-        return UserProfile.objects.all().exclude(user=self.request.user)
+        if self.request.user.is_authenticated:
+            return UserProfile.objects.all().order_by('user__username').exclude(user=self.request.user)
+        return UserProfile.objects.all().order_by('user__username')
 
 
 @method_decorator(login_required, name='dispatch')
