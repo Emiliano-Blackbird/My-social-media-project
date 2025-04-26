@@ -9,6 +9,7 @@ from posts.forms import PostCreateForm
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 
 
 @method_decorator(login_required, name='dispatch')
@@ -42,3 +43,14 @@ def like_post(request, pk):
         messages.add_message(request, messages.INFO, 'Te gusta este post.')
 
     return HttpResponseRedirect(reverse('post_detail', args=[pk]))
+
+
+@login_required
+def like_post_ajax(request, pk):
+    post = Post.objects.get(pk=pk)
+    if request.user in post.likes.all():
+        post.likes.remove(request.user)
+        return JsonResponse({'message': 'Ya no te gusta este post.', 'liked': False, 'nLikes': post.likes.all().count()})
+    else:
+        post.likes.add(request.user)
+        return JsonResponse({'message': 'Te gusta este post.', 'liked': True, 'nLikes': post.likes.all().count()})
