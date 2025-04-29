@@ -1,26 +1,21 @@
-from django.shortcuts import render
-
-from django.views.generic import TemplateView
-from django.views.generic.edit import CreateView
-from django.contrib.auth.models import User
-from django.contrib import messages
-from django.views.generic.edit import FormView
-from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
+from django.contrib import messages
+from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from .forms import RegistrationForm, LoginForm
-from django.views.generic import DetailView
-from django.views.generic import ListView
+from django.views.generic import (
+    TemplateView, DetailView, ListView,
+    CreateView, UpdateView
+)
+from django.views.generic.edit import FormView
 
-from profiles.models import UserProfile
-from django.views.generic.edit import UpdateView
-from posts.models import Post
+from django.contrib.auth.models import User
 
-from .forms import ProfileFollow
-from profiles.models import Follow
+from .forms import RegistrationForm, LoginForm, ProfileFollow
 from profiles.forms import FollowForm
+from profiles.models import UserProfile, Follow
+from posts.models import Post
 
 
 class HomeView(TemplateView):
@@ -28,15 +23,14 @@ class HomeView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
         if self.request.user.is_authenticated:
-            seguidos = Follow.objects.filter(follower=self.request.user.profile).values_list('following__user', flat=True)
-            last_posts = Post.objects.filter(user__profile__user__in=seguidos)
-
+            seguidos = Follow.objects.filter(
+                follower=self.request.user.profile
+            ).values_list('following__user', flat=True)
+            last_posts = Post.objects.filter(user__in=seguidos)
         else:
             last_posts = Post.objects.all().order_by('-created_at')[:5]
         context['last_posts'] = last_posts
-
         return context
 
 
@@ -51,12 +45,12 @@ class LoginView(FormView):
 
         if user is not None:
             login(self.request, user)
-            messages.add_message(self.request, messages.SUCCESS, f'Bienvenido de nuevo {user.username}')
+            messages.success(
+                self.request, f'Bienvenido de nuevo {user.username}'
+            )
             return HttpResponseRedirect(reverse('home'))
-
-        else:
-            messages.add_message(self.request, messages.ERROR, 'Usuario o contraseña incorrectos')
-            return super(LoginView, self).form_invalid(form)
+        messages.error(self.request, 'Usuario o contraseña incorrectos')
+        return super().form_invalid(form)
 
 
 class RegisterView(CreateView):
@@ -66,8 +60,8 @@ class RegisterView(CreateView):
     form_class = RegistrationForm
 
     def form_valid(self, form):
-        messages.add_message(self.request, messages.SUCCESS, 'Usuario creado correctamente')
-        return super(RegisterView, self).form_valid(form)
+        messages.success(self.request, 'Usuario creado correctamente')
+        return super().form_valid(form)
 
 
 class LegalView(TemplateView):
@@ -96,15 +90,22 @@ class ProfileDetailView(DetailView, FormView):
         follower = self.request.user.profile
         following = self.object
 
-        follow_relation = Follow.objects.filter(follower=follower, following=following)
+        follow_relation = Follow.objects.filter(
+            follower=follower, following=following
+        )
 
         if follow_relation.exists():
             follow_relation.delete()
-            messages.success(self.request, f'Ya no sigues a {following.user.username}')
+            messages.success(
+                self.request,
+                f'Ya no sigues a {following.user.username}'
+            )
         else:
             Follow.objects.create(follower=follower, following=following)
-            messages.success(self.request, f'Ahora sigues a {following.user.username}')
-
+            messages.success(
+                self.request,
+                f'Ahora sigues a {following.user.username}'
+            )
         return super().form_valid(form)
 
     def get_success_url(self):
@@ -126,10 +127,11 @@ class ProfileListView(ListView):
     template_name = 'general/profile_list.html'
     context_object_name = 'profiles'
 
-# Evita que el usuario vea su propio perfil
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            return UserProfile.objects.all().order_by('user__username').exclude(user=self.request.user)
+            return UserProfile.objects.exclude(
+                user=self.request.user
+            ).order_by('user__username')
         return UserProfile.objects.all().order_by('user__username')
 
 
@@ -140,16 +142,15 @@ class ProfileUpdateView(UpdateView):
     context_object_name = 'profile'
     fields = ['profile_picture', 'bio', 'birth_date']
 
-# Evita editar perfil de otros usuarios
     def dispatch(self, request, *args, **kwargs):
         user_profile = self.get_object()
-        if user_profile.user != self.request.user:
+        if user_profile.user != request.user:
             return HttpResponseRedirect(reverse('home'))
         return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
-        messages.add_message(self.request, messages.SUCCESS, 'Perfil actualizado correctamente')
-        return super(ProfileUpdateView, self).form_valid(form)
+        messages.success(self.request, 'Perfil actualizado correctamente')
+        return super().form_valid(form)
 
     def get_success_url(self):
         return reverse('profile_detail', args=[self.object.pk])
@@ -158,5 +159,5 @@ class ProfileUpdateView(UpdateView):
 @login_required
 def logout_view(request):
     logout(request)
-    messages.add_message(request, messages.INFO, 'Has cerrado sesión')
+    messages.info(request, 'Has cerrado sesión')
     return HttpResponseRedirect(reverse('home'))
