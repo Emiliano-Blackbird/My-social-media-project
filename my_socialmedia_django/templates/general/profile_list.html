@@ -21,7 +21,7 @@
                No hay imagen de perfil
             {% endif %}
           </p>
-          <p>Seguidores: {{ profile.followers.count }}</p>
+          <p>Seguidos: {{ profile.followers.count }}</p>
           <p><a href="{% url 'profile_detail' profile.pk %}">Ver perfil</a></p>
       </article>
     {% endfor %}

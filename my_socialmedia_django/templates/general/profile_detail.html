@@ -17,7 +17,7 @@
         No hay imagen de perfil
     {% endif %}
   </p>
-  <p>Seguidores: {{ profile.followers.count }}</p>
+  <p>Seguidos: {{ profile.followers.count }}</p>
   {% if profile.user == request.user %}
     <p><a href="{% url 'profile_update' profile.pk %}">Editar</a></p>
   {% endif %}
