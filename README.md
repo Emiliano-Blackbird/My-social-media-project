@@ -3,7 +3,7 @@ My Sicial Media Project
 ![Captura de pantalla 2025-05-01 193155](https://github.com/user-attachments/assets/75605d6e-45ff-4542-aa4b-f2055453e3ed)
 
 
-📝 Overview
+## 📝 Overview
 
 This repository contains a minimal social media application built with Django, featuring:
 
@@ -20,7 +20,7 @@ This repository contains a minimal social media application built with Django, f
 ![principal](https://github.com/user-attachments/assets/bf609daa-afcd-4764-8b74-d5dbb7df27fc)
 
 
-🚀 Features
+## 🚀 Features
 
     Authentication: Registration, login/logout, protected views with login_required.
 
@@ -34,12 +34,16 @@ This repository contains a minimal social media application built with Django, f
 
 ![Captura de pantalla 2025-05-01 193318](https://github.com/user-attachments/assets/e4157620-afbc-4775-9df9-40bc07106ad1)
 
+##
+
 ![Captura de pantalla 2025-05-01 193514](https://github.com/user-attachments/assets/ba987608-537e-4973-968c-19fc52fe4561)
+
+##
 
 ![Captura de pantalla 2025-05-01 193535](https://github.com/user-attachments/assets/8665ce58-91d1-45d0-9f3a-4cd281e047f2)
 
 
-🛠 Technologies
+## 🛠 Technologies
 
     Backend: Python 3.x, Django 4.x.
 
@@ -51,10 +55,14 @@ This repository contains a minimal social media application built with Django, f
 
     Deployment: WSGI server (Gunicorn/uWSGI) behind Nginx. 
 
-📂 Project Structure
+## 📂 Project Structure
 
 ![Captura de pantalla 2025-05-01 184700](https://github.com/user-attachments/assets/4774bbd4-217c-4cd2-ba62-981801cffb4e)
 
-📄 License
+## 📄 License
 
 This project is licensed under MIT
+
+## 👨‍💻 Author
+
+ - Emiliano Blackbird (Emiliano Perez Paponi)
