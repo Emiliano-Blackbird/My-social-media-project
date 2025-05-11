@@ -66,3 +66,5 @@ This project is licensed under MIT
 ## 👨‍💻 Author
 
  - Emiliano Blackbird (Emiliano Perez Paponi)
+ - Full Stack Developer
+ - GitHub: @Emiliano-Blackbird
