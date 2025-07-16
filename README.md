@@ -28,7 +28,7 @@ This repository contains a minimal social media application built with Django, f
 
     Best Practices: PEP 8 compliance, class-based views, flash messages.
 
-## 📸 ---- Capturas ----
+## 📸 ---- Captures ----
 
 ![Captura de pantalla 2025-05-01 193318](https://github.com/user-attachments/assets/e4157620-afbc-4775-9df9-40bc07106ad1)
 
