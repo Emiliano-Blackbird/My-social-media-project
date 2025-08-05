@@ -1,7 +1,6 @@
 # My Social Media Project
 
-![Captura de pantalla 2025-05-01 193155](https://github.com/user-attachments/assets/75605d6e-45ff-4542-aa4b-f2055453e3ed)
-
+<img src="previews/preview_social_media1.png"/>
 
 ## Overview
 
