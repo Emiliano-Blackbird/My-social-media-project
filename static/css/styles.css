@@ -1,0 +1,149 @@
+/* static/css/styles.css */
+.likeButton {
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+}
+
+/* Estilos generales para footer*/
+.site-footer {
+  background-color: #121212;
+  color: #e0e0e0;
+  padding: 20px 0;
+  text-align: center;
+  font-size: 0.9rem;
+  border-top: 1px solid #333;
+  margin-top: 50px;
+}
+
+.site-footer a {
+  color: #e6683c;
+  text-decoration: none;
+}
+
+.site-footer a:hover {
+  color: #f09433;
+  text-decoration: underline;
+}
+
+.site-footer .container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Estilos generales para el header + nav */
+.site-header {
+  background-color: #1a1a1a;
+  padding: 20px 0;
+  border-bottom: 1px solid #333;
+}
+
+.site-title {
+  font-size: 5rem;
+  font-weight: bold;
+  margin-bottom: 25px;
+  padding: 10px 0;
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.main-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.main-nav li {
+  display: inline-block;
+}
+
+.main-nav a {
+  color: #e0e0e0;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.main-nav a:hover {
+  color: #f09433;
+}
+
+/* Estilos para los posts */
+article {
+  margin-bottom: 30px;
+  margin-top: 30px;;
+  transition: transform 0.2s ease-in-out;
+}
+
+article:hover {
+  transform: translateY(-5px); /* efecto al pasar el mouse */
+}
+
+article .feed-text span.font-weight-bold {
+  color: #f09433; /* Nombre del usuario */
+  font-weight: bold;
+}
+
+article .time {
+  font-size: 0.8rem;
+  color: #aaa;
+}
+
+article .feed-icon i {
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #999;
+}
+
+article .feed-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+article .feed-image p {
+  font-size: 0.95rem;
+  color: #1f1f1f; /* Color del texto del post */
+  margin-top: 10px;
+  padding: 0 10px;
+}
+
+article footer {
+  border-top: 1px solid #333;
+  padding-top: 10px;
+}
+
+article footer a.likeButton {
+  color: #e6683c;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+article footer a.likeButton:hover {
+  color: #f09433;
+}
+
+article .bi-heart,
+article .bi-heart-fill,
+article .bi-chat-dots {
+  font-size: 1.2rem;
+  margin-left: 5px;
+}
+
+article .btn-primary {
+  background: linear-gradient(45deg, #f09433, #dc2743);
+  border: none;
+  font-weight: bold;
+  padding: 5px 15px;
+  border-radius: 20px;
+  transition: background 0.3s ease-in-out;
+}
+
+article .btn-primary:hover {
+  background: linear-gradient(45deg, #cc2366, #bc1888);
+  color: #fff;
+}
