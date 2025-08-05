@@ -13,8 +13,7 @@ This repository contains a minimal social media application built with Django, f
     Comments on posts, both standard and via AJAX.
     Clean code structured per PEP 8 and Django best practices. 
 
-![principal](https://github.com/user-attachments/assets/bf609daa-afcd-4764-8b74-d5dbb7df27fc)
-
+<img src="previews/preview_social_media.png"/>
 
 ## Features
 
