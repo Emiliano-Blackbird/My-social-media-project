@@ -6,22 +6,55 @@
 
     <nav class="main-nav">
       <ul>
-        <li><a href="{% url 'home' %}">Inicio</a></li>
-        <li><a href="{% url 'profile_list' %}">Perfiles</a></li>
+        <li>
+          <a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+            Inicio
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'profile_list' %}" class="{% if request.resolver_match.url_name == 'profile_list' %}active{% endif %}">
+            Perfiles
+          </a>
+        </li>
 
         {% if not request.user.is_authenticated %}
-          <li><a href="{% url 'login' %}">Login</a></li>
-          <li><a href="{% url 'register' %}">Registro</a></li>
+          <li>
+            <a href="{% url 'login' %}" class="{% if request.resolver_match.url_name == 'login' %}active{% endif %}">
+              Login
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'register' %}" class="{% if request.resolver_match.url_name == 'register' %}active{% endif %}">
+              Registro
+            </a>
+          </li>
         {% endif %}
 
-        <li><a href="{% url 'contact' %}">Contacto</a></li>
+        <li>
+          <a href="{% url 'contact' %}" class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}">
+            Contacto
+          </a>
+        </li>
 
         {% if request.user.is_authenticated %}
-          <li><a href="{% url 'post_create' %}">Publicar</a></li>
-          <li><a href="{% url 'profile_detail' request.user.profile.pk %}">Mi perfil</a></li>
-          <li><a href="{% url 'logout' %}">Cerrar sesión</a></li>
+          <li>
+            <a href="{% url 'post_create' %}" class="{% if request.resolver_match.url_name == 'post_create' %}active{% endif %}">
+              Publicar
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'profile_detail' request.user.profile.pk %}" class="{% if request.resolver_match.url_name == 'profile_detail' %}active{% endif %}">
+              Mi perfil
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'logout' %}" class="{% if request.resolver_match.url_name == 'logout' %}active{% endif %}">
+              Cerrar sesión
+            </a>
+          </li>
         {% endif %}
       </ul>
     </nav>
+
   </div>
 </header>

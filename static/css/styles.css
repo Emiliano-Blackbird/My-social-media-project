@@ -4,7 +4,7 @@
     color: rgb(0, 0, 0);
 }
 
-/* Estilos generales para footer*/
+/* --------------------------Estilos generales para footer-------------------------- */
 .site-footer {
   background-color: #121212;
   color: #e0e0e0;
@@ -30,7 +30,7 @@
   margin: 0 auto;
 }
 
-/* Estilos generales para el header + nav */
+/* --------------------------Estilos generales para el header + nav-------------------------- */
 .site-header {
   background-color: #1a1a1a;
   padding: 20px 0;
@@ -38,9 +38,9 @@
 }
 
 .site-title {
-  font-size: 5rem;
+  font-size: 3rem;
   font-weight: bold;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
   padding: 10px 0;
   background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
   -webkit-background-clip: text;
@@ -72,7 +72,7 @@
   color: #f09433;
 }
 
-/* Estilos para los posts */
+/* --------------------------Estilos para los posts-------------------------- */
 article {
   margin-bottom: 30px;
   margin-top: 30px;;
@@ -146,4 +146,11 @@ article .btn-primary {
 article .btn-primary:hover {
   background: linear-gradient(45deg, #cc2366, #bc1888);
   color: #fff;
+}
+
+/* --------------------------Estilos del nav para marcar sección activa-------------------------- */
+.main-nav a.active {
+  color: #f09433;
+  border-bottom: 2px solid #f09433;
+  padding-bottom: 3px;
 }
